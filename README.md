@@ -21,6 +21,8 @@ sbt "jmh:run -f 1 -p model=e5-small-v2 -p words=256"
 
 ## CPU results
 
+For AMD Ryzen7 2700 with 8 physical cores:
+
 ```
 [info] Benchmark                           (model)  (words)  Mode  Cnt    Score    Error  Units
 [info] EncoderBenchmark.latency   all-MiniLM-L6-v2        4  avgt   15    3.542 ±  0.284  ms/op
@@ -61,6 +63,8 @@ sbt "jmh:run -f 1 -p model=e5-small-v2 -p words=256"
 ```
 
 ## GPU results
+
+For Nvidia RTX3060Ti:
 
 ```
 [info] Benchmark                           (model)  (words)  Mode  Cnt   Score   Error  Units
