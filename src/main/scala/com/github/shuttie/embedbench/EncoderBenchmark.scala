@@ -39,18 +39,18 @@ class EncoderBenchmark {
       |paintings is done. Package Included 1 x Canvas 1 x set Resin Diamonds 1 x Diamond painting pen 1 x
       |""".stripMargin
 
-  val path = "/home/shutty/code/metarank-huggingface"
+  val path = "/home/shutty/code/nixiesearch-hf"
 
-  @Param(Array("4", "8", "16", "32", "64", "128", "256"))
+  @Param(Array("4", "8", "16")) //, "32", "64", "128", "256"))
   var words: String = _
 
   @Param(
     Array(
-      "all-MiniLM-L6-v2",
-      "all-mpnet-base-v2",
-      "e5-small-v2",
-      "e5-base-v2",
-      "e5-large-v2"
+      //"all-MiniLM-L6-v2-onnx"
+      //"all-mpnet-base-v2",
+      //"e5-small-v2"
+      "e5-base-v2-onnx"
+      //"e5-large-v2-onnx"
     )
   )
   var model: String = _
@@ -58,17 +58,26 @@ class EncoderBenchmark {
   @Param(Array("true", "false"))
   var gpu: String = _
 
+  @Param(Array("true", "false"))
+  var quantized: String = _
+
   var encoder: OnnxBiEncoder = _
   var evalString: String = _
   var gpuFlag: Boolean = _
+  var quantFlag: Boolean = _
 
   @Setup
   def setup = {
     gpuFlag = gpu.toBoolean
+    quantFlag = quantized.toBoolean
+    val modelFile = quantFlag match {
+      case true  => "model_quantized.onnx"
+      case false => "model.onnx"
+    }
     val session = OnnxSession.load(
-      model = new FileInputStream(new File(s"$path/$model/pytorch_model.onnx")),
-      dic = new FileInputStream(new File(s"$path/$model/vocab.txt")),
-      dim = 384,
+      model = new FileInputStream(new File(s"$path/$model/$modelFile")),
+      dic = new FileInputStream(new File(s"$path/$model/tokenizer.json")),
+      dim = 768,
       gpu = gpuFlag
     )
     encoder = OnnxBiEncoder(session)

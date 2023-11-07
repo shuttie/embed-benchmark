@@ -1,5 +1,6 @@
 package com.github.shuttie.embedbench
 
+import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer
 import ai.djl.modality.nlp.DefaultVocabulary
 import ai.djl.modality.nlp.bert.BertFullTokenizer
 import ai.onnxruntime.OrtSession.SessionOptions
@@ -14,7 +15,7 @@ import java.nio.charset.StandardCharsets
 case class OnnxSession(
     env: OrtEnvironment,
     session: OrtSession,
-    tokenizer: BertFullTokenizer,
+    tokenizer: HuggingFaceTokenizer,
     dim: Int
 ) {
   def close(): Unit = {
@@ -31,13 +32,16 @@ object OnnxSession {
       dim: Int,
       gpu: Boolean
   ): OnnxSession = {
-    val tokens = IOUtils.toString(dic, StandardCharsets.UTF_8).split('\n')
-    val vocab = DefaultVocabulary.builder().add(tokens.toList.asJava).build()
-    val tokenizer = new BertFullTokenizer(vocab, true)
+    val tokenizer = HuggingFaceTokenizer.newInstance(
+      dic,
+      Map("padding" -> "true", "truncation" -> "true").asJava
+    )
     val env = OrtEnvironment.getEnvironment("sbert")
     val opts = new SessionOptions()
-    opts.setIntraOpNumThreads(Runtime.getRuntime.availableProcessors())
+    //opts.setIntraOpNumThreads(Runtime.getRuntime.availableProcessors())
     opts.setOptimizationLevel(OptLevel.ALL_OPT)
+    //opts.setIntraOpNumThreads(1)
+    //opts.setInterOpNumThreads(1)
     if (gpu) opts.addCUDA()
     val modelBytes = IOUtils.toByteArray(model)
     val session = env.createSession(modelBytes, opts)
