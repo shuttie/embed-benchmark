@@ -48,9 +48,9 @@ class EncoderBenchmark {
     Array(
       //"all-MiniLM-L6-v2-onnx"
       //"all-mpnet-base-v2",
-      //"e5-small-v2"
-      "e5-base-v2-onnx"
-      //"e5-large-v2-onnx"
+      "e5-small-v2-onnx",
+      "e5-base-v2-onnx",
+      "e5-large-v2-onnx"
     )
   )
   var model: String = _
@@ -77,7 +77,11 @@ class EncoderBenchmark {
     val session = OnnxSession.load(
       model = new FileInputStream(new File(s"$path/$model/$modelFile")),
       dic = new FileInputStream(new File(s"$path/$model/tokenizer.json")),
-      dim = 768,
+      dim = model match {
+        case "e5-small-v2-onnx" => 384
+        case "e5-base-v2-onnx"  => 768
+        case "e5-large-v2-onnx" => 1024
+      },
       gpu = gpuFlag
     )
     encoder = OnnxBiEncoder(session)
