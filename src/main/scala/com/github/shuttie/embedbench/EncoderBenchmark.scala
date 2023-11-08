@@ -41,7 +41,7 @@ class EncoderBenchmark {
 
   val path = "/home/shutty/code/nixiesearch-hf"
 
-  @Param(Array("4", "8", "16")) //, "32", "64", "128", "256"))
+  @Param(Array("4", "8", "16", "32", "64", "128", "256"))
   var words: String = _
 
   @Param(

@@ -105,6 +105,104 @@ For Nvidia RTX3060Ti:
 [info] EncoderBenchmark.latency        e5-large-v2      256  avgt    5  29.497 ± 1.061  ms/op
 ```
 
+## Quantization
+
+### QInt8, no AVX-VNNI
+
+```
+[info] Benchmark                 (gpu)           (model)  (quantized)  (words)  Mode  Cnt    Score    Error  Units
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true        4  avgt   30    5.056 ±  0.328  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true        8  avgt   30    6.188 ±  0.312  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true       16  avgt   30    9.475 ±  0.291  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true       32  avgt   30   18.114 ±  0.729  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true       64  avgt   30   27.633 ±  1.524  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true      128  avgt   30   49.595 ±  1.263  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true      256  avgt   30   96.119 ±  2.950  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false        4  avgt   30    6.774 ±  0.299  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false        8  avgt   30    7.699 ±  0.304  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false       16  avgt   30   10.854 ±  0.627  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false       32  avgt   30   20.046 ±  0.795  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false       64  avgt   30   29.415 ±  1.626  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false      128  avgt   30   51.847 ±  1.471  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false      256  avgt   30  104.012 ±  5.958  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true        4  avgt   30   10.101 ±  0.339  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true        8  avgt   30   12.989 ±  0.462  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true       16  avgt   30   20.710 ±  0.729  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true       32  avgt   30   41.481 ±  1.322  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true       64  avgt   30   68.744 ±  2.724  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true      128  avgt   30  108.107 ±  3.234  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true      256  avgt   30  242.078 ±  7.595  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false        4  avgt   30   18.318 ±  0.627  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false        8  avgt   30   20.901 ±  1.241  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false       16  avgt   30   27.631 ±  1.168  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false       32  avgt   30   47.793 ±  1.643  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false       64  avgt   30   76.249 ±  4.037  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false      128  avgt   30  120.735 ±  4.239  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false      256  avgt   30  255.839 ±  6.584  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true        4  avgt   30   29.147 ±  0.984  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true        8  avgt   30   39.321 ±  1.286  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true       16  avgt   30   64.002 ±  2.810  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true       32  avgt   30  131.581 ±  4.094  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true       64  avgt   30  201.466 ± 12.138  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true      128  avgt   30  353.541 ± 11.863  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true      256  avgt   30  775.755 ± 15.869  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false        4  avgt   30   58.246 ±  1.295  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false        8  avgt   30   65.960 ±  2.660  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false       16  avgt   30   86.411 ±  2.908  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false       32  avgt   30  150.251 ±  2.868  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false       64  avgt   30  227.753 ±  5.515  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false      128  avgt   30  398.923 ± 11.870  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false      256  avgt   30  871.132 ± 20.903  ms/op
+```
+
+### QInt8, with AVX-VNNI
+
+```
+[info] Benchmark                 (gpu)           (model)  (quantized)  (words)  Mode  Cnt    Score    Error  Units
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true        4  avgt   30    1.726 ±  0.050  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true        8  avgt   30    2.051 ±  0.057  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true       16  avgt   30    2.863 ±  0.094  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true       32  avgt   30    5.102 ±  0.158  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true       64  avgt   30    7.426 ±  0.359  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true      128  avgt   30   13.004 ±  0.619  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx         true      256  avgt   30   23.801 ±  0.194  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false        4  avgt   30    3.167 ±  0.387  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false        8  avgt   30    2.894 ±  0.245  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false       16  avgt   30    4.182 ±  0.229  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false       32  avgt   30    7.297 ±  0.119  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false       64  avgt   30   12.136 ±  1.416  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false      128  avgt   30   22.553 ±  2.545  ms/op
+[info] EncoderBenchmark.latency  false  e5-small-v2-onnx        false      256  avgt   30   41.167 ±  3.994  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true        4  avgt   30    3.655 ±  0.531  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true        8  avgt   30    4.202 ±  0.462  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true       16  avgt   30    5.572 ±  0.425  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true       32  avgt   30    8.767 ±  0.079  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true       64  avgt   30   14.252 ±  1.272  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true      128  avgt   30   23.057 ±  2.247  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx         true      256  avgt   30   52.650 ±  4.567  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false        4  avgt   30   12.693 ±  1.863  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false        8  avgt   30   12.746 ±  1.826  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false       16  avgt   30   14.428 ±  0.092  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false       32  avgt   30   23.002 ±  1.478  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false       64  avgt   30   37.776 ±  5.601  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false      128  avgt   30   53.990 ±  1.942  ms/op
+[info] EncoderBenchmark.latency  false   e5-base-v2-onnx        false      256  avgt   30  150.256 ± 23.328  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true        4  avgt   30   14.164 ±  2.431  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true        8  avgt   30   15.473 ±  2.058  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true       16  avgt   30   18.127 ±  2.286  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true       32  avgt   30   26.344 ±  2.518  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true       64  avgt   30   32.557 ±  1.190  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true      128  avgt   30   62.558 ±  8.472  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx         true      256  avgt   30  126.842 ± 11.528  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false        4  avgt   30   39.614 ±  3.823  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false        8  avgt   30   43.939 ±  5.708  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false       16  avgt   30   52.877 ±  6.923  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false       32  avgt   30   90.087 ± 14.461  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false       64  avgt   30  117.197 ± 17.545  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false      128  avgt   30  176.686 ±  4.437  ms/op
+[info] EncoderBenchmark.latency  false  e5-large-v2-onnx        false      256  avgt   30  419.281 ± 58.563  ms/op
+```
+
 ### License
 
 Apache 2.0
