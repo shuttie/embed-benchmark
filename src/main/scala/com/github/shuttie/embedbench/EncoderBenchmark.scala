@@ -61,6 +61,12 @@ class EncoderBenchmark {
   @Param(Array("true", "false"))
   var quantized: String = _
 
+  @Param(Array("QInt8", "QUInt8"))
+  var tpe: String = _
+
+  @Param(Array("true", "false"))
+  var opt: String = _
+
   var encoder: OnnxBiEncoder = _
   var evalString: String = _
   var gpuFlag: Boolean = _
@@ -69,9 +75,9 @@ class EncoderBenchmark {
   @Setup
   def setup = {
     gpuFlag = gpu.toBoolean
-    quantFlag = quantized.toBoolean
-    val modelFile = quantFlag match {
-      case true  => "model_quantized.onnx"
+    val optSuffix = if (opt == "true") "opt" else "noopt"
+    val modelFile = quantized.toBoolean match {
+      case true  => s"model_${tpe}_$optSuffix.onnx"
       case false => "model.onnx"
     }
     val session = OnnxSession.load(

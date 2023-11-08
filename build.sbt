@@ -9,6 +9,6 @@ enablePlugins(JmhPlugin)
 libraryDependencies ++= Seq(
   "ai.djl" % "api" % "0.22.1",
   "ai.djl.huggingface" % "tokenizers" % "0.22.1",
-  "com.microsoft.onnxruntime" % "onnxruntime" % "1.16.1",
+  "com.microsoft.onnxruntime" % "onnxruntime_gpu" % "1.16.1",
   "commons-io" % "commons-io" % "2.11.0"
 )
