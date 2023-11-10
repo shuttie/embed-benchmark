@@ -2,7 +2,7 @@ package com.github.shuttie.embedbench
 
 import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer
 import ai.djl.modality.nlp.bert.BertFullTokenizer
-import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
+import ai.onnxruntime.{OnnxTensor, OnnxValue, OrtEnvironment, OrtSession}
 
 import scala.jdk.CollectionConverters._
 import java.nio.LongBuffer
@@ -15,7 +15,7 @@ case class OnnxBiEncoder(
     dim: Int
 ) {
 
-  def embed(batch: Array[String]): Array[Array[Float]] = {
+  def embed(batch: Array[String]): OnnxValue = {
 
     val encoded = tokenizer.batchEncode(batch)
 
@@ -39,11 +39,12 @@ case class OnnxBiEncoder(
         n -> OnnxTensor.createTensor(env, LongBuffer.wrap(attMask), tensorDim)
     }.toMap
     val result = session.run(args.asJava)
-    val tensor = result.get(0).getValue.asInstanceOf[Array[Array[Array[Float]]]]
-    val normalized = avgpool(tensor, tokenLengths, dim)
+    val tensor =
+      result.get(0) //.getValue.asInstanceOf[Array[Array[Array[Float]]]]
+    //val normalized = avgpool(tensor, tokenLengths, dim)
     result.close()
     args.values.foreach(_.close())
-    normalized
+    tensor
   }
 
   def avgpool(
