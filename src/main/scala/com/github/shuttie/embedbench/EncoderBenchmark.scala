@@ -61,7 +61,7 @@ class EncoderBenchmark {
   @Param(Array("QInt8", "QUInt8", "Float16", "Float32"))
   var tpe: String = _
 
-  @Param(Array("0"))
+  @Param(Array("0", "1", "2", "99"))
   var opt: String = _
 
   var encoder: OnnxBiEncoder = _
