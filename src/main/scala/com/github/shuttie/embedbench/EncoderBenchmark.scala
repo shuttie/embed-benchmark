@@ -72,7 +72,8 @@ class EncoderBenchmark {
   @Setup
   def setup = {
     gpuFlag = gpu.toBoolean
-    val modelFile = s"model_opt${opt}_${tpe}.onnx"
+    val modelFile =
+      if (opt == "0") "model.onnx" else s"model_opt${opt}_${tpe}.onnx"
     val session = OnnxSession.load(
       model = new FileInputStream(new File(s"$path/$model/$modelFile")),
       dic = new FileInputStream(new File(s"$path/$model/tokenizer.json")),
