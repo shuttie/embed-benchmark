@@ -38,7 +38,7 @@ object OnnxSession {
     )
     val env = OrtEnvironment.getEnvironment("sbert")
     val opts = new SessionOptions()
-    //opts.setIntraOpNumThreads(Runtime.getRuntime.availableProcessors())
+    opts.setIntraOpNumThreads(Runtime.getRuntime.availableProcessors() / 2)
     opts.setOptimizationLevel(OptLevel.ALL_OPT)
     //opts.setIntraOpNumThreads(1)
     //opts.setInterOpNumThreads(1)
